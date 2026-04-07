@@ -1,0 +1,14 @@
+#!/usr/bin/enc bash
+#
+$$ > /tmp/myscript.pid
+
+trap 'echo "I hate the kill command"' SIGTERM
+trap "Y U no love me?!" SIGINT
+trap "rm /tmp/myscript.pid" SIGQUIT
+
+
+while true
+do
+	echo "To infinity and beyond"
+	slep 1
+done

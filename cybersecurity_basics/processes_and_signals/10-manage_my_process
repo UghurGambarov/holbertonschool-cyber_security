@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+#
+case $1 in
+    start)
+	./manage_my_process;;
+    stop)
+	pkill -e manage_my_process
+	rm /tmp/my_process.pid
+	echo "manage_my_process stopped";;
+    restart)
+	pkill -e manage_my_process
+	rm /tmp/my_process.pid
+	./manage_my_process
+	echo $$ > /tmp/my_process.pid
+	echo "manage_my_process restarted";;
+    *)
+	echo "manage_my_process {start|stop|restart}";;
+esac

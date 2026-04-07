@@ -1,14 +1,37 @@
 #!/usr/bin/env bash
-#
-$$ > /tmp/myscript.pid
+# Create PID file
+echo $$ > /tmp/myscript.pid
 
-trap 'echo "I hate the kill command"' SIGTERM
-trap "Y U no love me?!" SIGINT
-trap "rm /tmp/myscript.pid" SIGQUIT
+# Function to clean up and exit
+cleanup() {
+  rm -f /tmp/myscript.pid
+  exit 0
+}
 
+# SIGTERM handler
+on_term() {
+  echo "I hate the kill command"
+  cleanup
+}
 
+# SIGINT handler (Ctrl + C)
+on_int() {
+  echo "Y U no love me?!"
+}
+
+# SIGQUIT handler
+on_quit() {
+  cleanup
+}
+
+# Register traps
+trap on_term SIGTERM
+trap on_int SIGINT
+trap on_quit SIGQUIT
+
+# Infinite loop
 while true
 do
-	echo "To infinity and beyond"
-	slep 1
+  echo "To infinity and beyond"
+  sleep 1
 done

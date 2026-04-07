@@ -5,24 +5,33 @@ PIDFILE="/tmp/my_process.pid"
 case "$1" in
   start)
     ./manage_my_process &
-    pid=$(pgrep -f manage_my_process | head -n 1)
+    pid=$!
     echo "$pid" > "$PIDFILE"
     echo "manage_my_process started"
     ;;
 
   stop)
-    pkill -x manage_my_process
-    sleep 1
-    pkill -9 -x manage_my_process
-    rm -f "$PIDFILE"
+    if [ -f "$PIDFILE" ]; then
+      pid=$(cat "$PIDFILE")
+      kill "$pid" 2>/dev/null
+      sleep 1
+      kill -9 "$pid" 2>/dev/null
+      rm -f "$PIDFILE"
+    fi
     echo "manage_my_process stopped"
     ;;
 
   restart)
-    pkill -x manage_my_process
-    rm -f "$PIDFILE"
+    if [ -f "$PIDFILE" ]; then
+      pid=$(cat "$PIDFILE")
+      kill "$pid" 2>/dev/null
+      sleep 1
+      kill -9 "$pid" 2>/dev/null
+      rm -f "$PIDFILE"
+    fi
+
     ./manage_my_process &
-    pid=$(pgrep -f manage_my_process | head -n 1)
+    pid=$!
     echo "$pid" > "$PIDFILE"
     echo "manage_my_process restarted"
     ;;

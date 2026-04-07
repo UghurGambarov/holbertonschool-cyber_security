@@ -11,13 +11,13 @@ case "$1" in
     ;;
 
   stop)
-    pkill -f manage_my_process
+    pkill -x manage_my_process
     rm -f "$PIDFILE"
     echo "manage_my_process stopped"
     ;;
 
   restart)
-    pkill -f manage_my_process
+    pkill -x manage_my_process
     rm -f "$PIDFILE"
     ./manage_my_process &
     pid=$(pgrep -f manage_my_process | head -n 1)

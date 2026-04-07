@@ -1,4 +1,4 @@
-find . -type f -mmin -1 | chmod +x
+chmod +x find . -type f -mmin -1
 git add .
 git commit -m "asdf"
 git push

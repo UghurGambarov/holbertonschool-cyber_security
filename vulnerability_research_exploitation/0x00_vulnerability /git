@@ -1,4 +1,0 @@
-find . -type f -mmin -1 -exec chmod +x {} \;
-git add .
-git commit -m "asdf"
-git push
